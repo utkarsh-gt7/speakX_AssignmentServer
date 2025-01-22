@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package question;
+
+service QuestionService {
+  rpc GetQuestionsByTitle (TitleRequest) returns (QuestionsResponse);
+  rpc GetQuestionsByType (TypeRequest) returns (QuestionsResponse);
+}
+
+message TitleRequest {
+  string title = 1;
+}
+
+message TypeRequest {
+  string type = 1;
+}
+
+message QuestionsResponse {
+  repeated Question questions = 1;
+}
+
+message Question {
+  string type = 1;
+  string title = 2;
+  string solution = 3;
+
+  // Optional fields
+  string anagramType = 4;  // Used for ANAGRAM type
+  repeated Block blocks = 5; // Used for ANAGRAM type
+
+  repeated Option options = 6; // Used for MCQ type
+  
+  // For Read Along and Content Only
+  string siblingId = 7; // Optional for related questions (like Read Along)
+
+  // Fields for MCQ and Anagram will be optional
+}
+
+message Block {
+  string text = 1;
+  bool showInOption = 2;
+  bool isAnswer = 3;
+}
+
+message Option {
+  string text = 1;
+  bool isCorrectAnswer = 2;
+}
