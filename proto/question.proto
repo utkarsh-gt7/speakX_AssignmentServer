@@ -9,14 +9,19 @@ service QuestionService {
 
 message TitleRequest {
   string title = 1;
+  int32 pageNumber = 2;  // Page number for pagination
+  int32 pageSize = 3;    // Number of items per page
 }
 
 message TypeRequest {
   string type = 1;
+  int32 pageNumber = 2;  // Page number for pagination
+  int32 pageSize = 3;    // Number of items per page
 }
 
 message QuestionsResponse {
   repeated Question questions = 1;
+  int32 totalQuestions = 2; // Total number of questions (for pagination)
 }
 
 message Question {
@@ -30,10 +35,7 @@ message Question {
 
   repeated Option options = 6; // Used for MCQ type
   
-  // For Read Along and Content Only
-  string siblingId = 7; // Optional for related questions (like Read Along)
-
-  // Fields for MCQ and Anagram will be optional
+  string siblingId = 7; // For Read Along or Content Only
 }
 
 message Block {

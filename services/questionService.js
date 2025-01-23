@@ -1,13 +1,21 @@
 const Question = require("../models/question");
 
-const getQuestionsByTitle = async (title) => {
-  console.log("Executing DB query for title:", title); // Debug log
-  return await Question.find({ title: { $regex: title, $options: "i" } });
+const getPaginatedQuestionsByTitle = async (title, pageNumber = 1, pageSize = 10) => {
+  const skip = (pageNumber - 1) * pageSize;
+  const totalQuestions = await Question.countDocuments({ title: { $regex: title, $options: "i" } });
+  const questions = await Question.find({ title: { $regex: title, $options: "i" } })
+    .skip(skip)
+    .limit(pageSize);
+  return { questions, totalQuestions };
 };
 
-const getQuestionsByType = async (type) => {
-  console.log("Executing DB query for type:", type); // Debug log
-  return await Question.find({ type });
+const getPaginatedQuestionsByType = async (type, pageNumber = 1, pageSize = 10) => {
+  const skip = (pageNumber - 1) * pageSize;
+  const totalQuestions = await Question.countDocuments({ type });
+  const questions = await Question.find({ type })
+    .skip(skip)
+    .limit(pageSize);
+  return { questions, totalQuestions };
 };
 
-module.exports = { getQuestionsByTitle, getQuestionsByType };
+module.exports = { getPaginatedQuestionsByTitle, getPaginatedQuestionsByType };
