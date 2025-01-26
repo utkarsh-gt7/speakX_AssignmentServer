@@ -53,7 +53,7 @@ server.addService(questionProto.QuestionService.service, {
 });
 
 const start = () => {
-  const PORT = 50051;
+  const PORT = process.env.PORT;
   server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err) {
       console.error("Failed to start gRPC server:", err.message);
