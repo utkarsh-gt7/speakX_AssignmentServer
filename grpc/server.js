@@ -3,7 +3,6 @@ const protoLoader = require("@grpc/proto-loader");
 const path = require("path");
 const { getPaginatedQuestionsByTitle, getPaginatedQuestionsByType } = require("../services/questionService");
 
-// Load the .proto file
 const protoPath = path.resolve(__dirname, "../proto/question.proto");
 const packageDefinition = protoLoader.loadSync(protoPath, {
   keepCase: true,
@@ -14,7 +13,6 @@ const packageDefinition = protoLoader.loadSync(protoPath, {
 });
 const questionProto = grpc.loadPackageDefinition(packageDefinition).question;
 
-// Create the gRPC server
 const server = new grpc.Server();
 
 server.addService(questionProto.QuestionService.service, {
@@ -54,7 +52,6 @@ server.addService(questionProto.QuestionService.service, {
   },
 });
 
-// Start the server
 const start = () => {
   const PORT = process.env.PORT;
   server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
