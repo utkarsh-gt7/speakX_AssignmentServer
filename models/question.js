@@ -1,30 +1,27 @@
 const mongoose = require("mongoose");
 
 const questionSchema = new mongoose.Schema({
-  type: { type: String, required: true }, // Store type (ANAGRAM, MCQ, etc.)
-  title: { type: String, required: true }, // Store the question title
+  type: { type: String, required: true },
+  title: { type: String, required: true },
 
-  // For Anagrams
-  anagramType: { type: String, enum: ["SENTENCE", "WORD"], required: false }, // Only applicable for ANAGRAM type
+  anagramType: { type: String, enum: ["SENTENCE", "WORD"], required: false },
   blocks: [
     {
-      text: { type: String, required: true },  // Text of the block
-      showInOption: { type: Boolean, default: true }, // Whether the block should show as an option
-      isAnswer: { type: Boolean, default: false } // Whether this block is part of the correct answer
+      text: { type: String, required: true },
+      showInOption: { type: Boolean, default: true },
+      isAnswer: { type: Boolean, default: false }
     }
   ],
 
-  // For MCQs
   options: [
     {
-      text: { type: String, required: true }, // Text of the option
-      isCorrectAnswer: { type: Boolean, required: true } // Whether the option is the correct answer
+      text: { type: String, required: true },
+      isCorrectAnswer: { type: Boolean, required: true }
     }
   ],
 
-  // For Anagram or MCQ
-  solution: { type: String, required: false }, // The correct solution/answer to the question
+  solution: { type: String, required: false },
 
-}, { timestamps: true }); // Adding timestamps for automatic createdAt and updatedAt fields
+}, { timestamps: true });
 
 module.exports = mongoose.model("Question", questionSchema, "speakX_questions");
